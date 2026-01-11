@@ -12,16 +12,14 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('car_models', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('brand_id');
-            $table->string('name');
-            $table->softDeletes();
-            $table->timestamps();
-
-            $table->foreign('brand_id')
-                ->on('car_brands')
-                ->refences('id')
-                ->onDelete('cascade');
+        $table->id();
+        // DİKKAT: constrained('car_brands') diyerek tabloyu otomatik bağladık.
+        // references ve on yazmana gerek kalmadı.
+        $table->foreignId('brand_id')->constrained('car_brands')->onDelete('cascade');
+        
+        $table->string('name');
+        $table->softDeletes();
+        $table->timestamps();
         });
     }
 
